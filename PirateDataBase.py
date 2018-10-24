@@ -33,6 +33,9 @@ class Filemanager:
         json.dump(d,f)
         f.close()
 
+def addnew():
+    x=0
+
 root = Tk()
 root.title("Pirate Database")
 title = Label(root,text="Pirate Database",font = "Impact 25")
@@ -60,7 +63,7 @@ dropdown.config(font = "Impact 15",width = "10")
 dropdown.nametowidget(dropdown.menuname).config(font = "Impact 15")
 dropdown.grid(row = 3,column = 1)
 
-save = Button(root,text = "Save",font = "Impact 15",width = "20") 
+save = Button(root,text = "Save",font = "Impact 15",width = "20",command = addnew) 
 save.grid(row = 4,column = 1)
 
 root.mainloop()
