@@ -1,3 +1,4 @@
+from tkinter import *
 import json
 class Pirate:
 
@@ -31,4 +32,36 @@ class Filemanager:
         f = open(self.path,"w")
         json.dump(d,f)
         f.close()
+
+root = Tk()
+root.title("Pirate Database")
+title = Label(root,text="Pirate Database",font = "Impact 25")
+title.grid(row = 0,column = 0,columnspan = 3)
+
+namelabel = Label(root,text="Name:",font = "Impact 15")
+namelabel.grid(row = 1,column = 0)
+
+shiplabel = Label(root,text="Ship:",font = "Impact 15")
+shiplabel.grid(row = 2,column = 0)
+
+fictionalabel = Label(root,text="Fictional:",font = "Impact 15")
+fictionalabel.grid(row = 3,column = 0)
+
+namentry = Entry(root,font = "Impact 15")
+namentry.grid(row = 1,column = 1)
+
+shipentry = Entry(root,font = "Impact 15")
+shipentry.grid(row = 2,column = 1)
+
+optionString = StringVar(root)
+optionString.set("False")
+dropdown = OptionMenu(root,optionString,"False","True")
+dropdown.config(font = "Impact 15",width = "10")
+dropdown.nametowidget(dropdown.menuname).config(font = "Impact 15")
+dropdown.grid(row = 3,column = 1)
+
+save = Button(root,text = "Save",font = "Impact 15",width = "20") 
+save.grid(row = 4,column = 1)
+
+root.mainloop()
     
