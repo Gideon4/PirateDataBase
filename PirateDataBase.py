@@ -1,5 +1,8 @@
 from tkinter import *
 import json
+import random
+import firebase
+
 class Pirate:
 
     name = ""
@@ -34,7 +37,17 @@ class Filemanager:
         f.close()
 
 def addnew():
-    x=0
+    p = Pirate()
+    p.name = namentry.get()
+    p.ship = shipentry.get()
+    p.fictional = optionString.get()
+
+    namentry.delete(0,"end")
+    shipentry.delete(0,"end")
+
+    d = p.getdict()
+    fm = Filemanager()
+    fm.writetofile("1010101",d)
 
 root = Tk()
 root.title("Pirate Database")
