@@ -1,7 +1,7 @@
 from tkinter import *
 import json
 import random
-import firebase
+from firebase import firebase as fb
 
 class Pirate:
 
@@ -21,21 +21,12 @@ class Pirate:
         
         return d
 
-class Filemanager:
-    path = "pdb.json"
+class FirebaseManager:
+    app = fb.FirebaseApplication("https://fihreebahsay.firebaseio.com/")
 
-    def writetofile(self,idNum,obj):
-        try:
-            f = open(self.path,"r")
-            d = json.load(f)
-            f.close()
-        except:
-            d = {}
-        d[idNum] = obj
-        f = open(self.path,"w")
-        json.dump(d,f)
-        f.close()
-
+    def writetofile(self, idNum, obj):
+        result = self.app.put("", idNum, obj)
+        
 def addnew():
     p = Pirate()
     p.name = namentry.get()
@@ -46,8 +37,8 @@ def addnew():
     shipentry.delete(0,"end")
 
     d = p.getdict()
-    fm = Filemanager()
-    fm.writetofile("1010101",d)
+    fm = FirebaseManager()
+    fm.writetofile(random.randint(10000,99999),d)
 
 root = Tk()
 root.title("Pirate Database")
