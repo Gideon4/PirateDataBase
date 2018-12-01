@@ -3,7 +3,7 @@ import FirebaseManager
 
 window1 = Tk()
 
-frame1 = Frame(window1,bg="salmon",padx=167)
+frame1 = Frame(window1,bg="salmon",padx=166)
 
 label1 = Label(frame1,text = "Pirate Data-Base", font = "Arial 20", bg = "salmon")
 label1.pack()
@@ -19,7 +19,7 @@ def dofilter():
 def searchupdate(e):
     dofilter()
 
-frame2 = Frame(window1)
+frame2 = Frame(window1,padx=2)
 
 searchlabel = Label(frame2,text = "Search", font = "Arial 20", bg = "salmon")
 searchlabel.grid(column=0,row=0)
@@ -53,11 +53,28 @@ ShipLabel.grid(row=4,column=1)
 FicLabel = Label(frame3,text="Fictional:",font="Arial 20",bg="salmon")
 FicLabel.grid(row=5,column=1)
 
-frame4 = Frame(window1,bg="salmon",padx=45,pady=27)
+def onselect(e):
+    w = e.widget
+    index = int(w.curselection()[0])
+    piratename = w.get(index)
+    for pirate in dlist:
+        if piratename.lower() == dlist[pirate]["name"].lower():
+            display(pirate)   
+
+def display(pirateId):
+    Piratelabel.config(text = dlist[pirateId]["name"])
+    ShipLabel.config(text = dlist[pirateId]["ship"])
+    if dlist[pirateId]["fictional"] == "True":
+        FicLabel.config(text="Fictional")
+    else:
+        FicLabel.config(text="Real")
+    
+frame4 = Frame(window1,bg="salmon",padx=45,pady=29)
 
 label4 = Label(frame4,text = "View Pirates", font = "Arial 20", bg = "salmon")
 label4.pack()
 listbox = Listbox(frame4,font="Arial 20",width=20,bg="gold")
+listbox.bind("<<ListboxSelect>>",onselect)
 fm = FirebaseManager.FirebaseManager()
 dlist = fm.getall()
 for item in dlist:
