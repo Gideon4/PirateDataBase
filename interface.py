@@ -110,7 +110,16 @@ for item in dlist:
 listbox.pack()
 
 def listdelete():
-    listbox.delete(ANCHOR)
+    index = int(listbox.curselection()[0])
+    deletekey = ""
+    piratename = listbox.get(index)
+    for pirateid in dlist:
+        if dlist[pirateid]["name"].lower() == piratename.lower():
+            deletekey = pirateid
+    fm.deletepirate(deletekey)
+    dlist.pop(deletekey)
+    dofilter()
+
 deletebutton = Button(frame4,text="Delete",font="Arial 30",width=13,height=1,bg="orange",command=listdelete)
 deletebutton.pack()
 
