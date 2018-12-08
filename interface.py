@@ -28,20 +28,47 @@ searchbar = Entry(frame2,font="Arial 20",bg="orange")
 searchbar.bind("<KeyRelease>", searchupdate)
 searchbar.grid(row=0,column=1)
 
+def scrollright():
+    index = int(listbox.curselection()[0])
+    listbox.selection_clear(index)
+    if index == len(dlist) - 1:
+        index = 0
+    else:
+        index += 1
+
+    updatelistbox(index)
+
+def scrollleft():
+    index = int(listbox.curselection()[0])
+    listbox.selection_clear(index)
+    if index == 0:
+        index = len(dlist) - 1
+    else:
+        index -= 1
+
+    updatelistbox(index)
+
+def updatelistbox(index):
+    listbox.selection_set(index)
+    piratename = listbox.get(index)
+    for pirateid in dlist:
+        if dlist[pirateid]["name"].lower() == piratename.lower():
+            display(pirateid)
+
 frame3 = Frame(window1,bg="salmon",padx=90,pady=85)
 
 leftimg = PhotoImage(file="left.gif")
 leftimg = leftimg.subsample(2)
-leftbtn = Button(frame3,image=leftimg)
+leftbtn = Button(frame3,image=leftimg,command=scrollleft)
 leftbtn.grid(row=1,column=0,rowspan=2)
 
 rightimg = PhotoImage(file="right.gif")
 rightimg = rightimg.subsample(2)
-rightbtn = Button(frame3,image=rightimg)
+rightbtn = Button(frame3,image=rightimg,command=scrollright)
 rightbtn.grid(row=1,column=2,rowspan=2)
 
 Piratelabel = Label(frame3,text="Pirate",font="Arial 30",bg="salmon")
-Piratelabel.grid(row=0,column=1)
+Piratelabel.grid(row=0,column=0,columnspan=3)
 
 sponge = PhotoImage(file="spongepirate.gif")
 Pirateimg = Label(frame3,image=sponge)
