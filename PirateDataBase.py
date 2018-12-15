@@ -28,6 +28,8 @@ class FirebaseManager:
         result = self.app.put("", idNum, obj)
         
 def addnew():
+
+    global win, namentry, shipentry, optionString
     p = Pirate()
     p.name = namentry.get()
     p.ship = shipentry.get()
@@ -40,35 +42,48 @@ def addnew():
     fm = FirebaseManager()
     fm.writetofile(random.randint(10000,99999),d)
 
-root = Tk()
-root.title("Pirate Database")
-title = Label(root,text="Pirate Database",font = "Impact 25")
-title.grid(row = 0,column = 0,columnspan = 3)
+    win.destroy()
 
-namelabel = Label(root,text="Name:",font = "Impact 15")
-namelabel.grid(row = 1,column = 0)
+def cancelme():
+    global win
+    win.destroy()
 
-shiplabel = Label(root,text="Ship:",font = "Impact 15")
-shiplabel.grid(row = 2,column = 0)
+def loadwindow(root):
 
-fictionalabel = Label(root,text="Fictional:",font = "Impact 15")
-fictionalabel.grid(row = 3,column = 0)
+    global win, namentry, shipentry, optionString
+    win = root
+    root.config(bg="salmon")
+    root.title("Pirate Database")
+    title = Label(root,text="Pirate Database",font = "Impact 25",bg = "salmon")
+    title.grid(row = 0,column = 0,columnspan = 3)
 
-namentry = Entry(root,font = "Impact 15")
-namentry.grid(row = 1,column = 1)
+    namelabel = Label(root,text="Name:",font = "Impact 15",bg = "salmon")
+    namelabel.grid(row = 1,column = 0)
 
-shipentry = Entry(root,font = "Impact 15")
-shipentry.grid(row = 2,column = 1)
+    shiplabel = Label(root,text="Ship:",font = "Impact 15",bg = "salmon")
+    shiplabel.grid(row = 2,column = 0)
 
-optionString = StringVar(root)
-optionString.set("False")
-dropdown = OptionMenu(root,optionString,"False","True")
-dropdown.config(font = "Impact 15",width = "10")
-dropdown.nametowidget(dropdown.menuname).config(font = "Impact 15")
-dropdown.grid(row = 3,column = 1)
+    fictionalabel = Label(root,text="Fictional:",font = "Impact 15",bg = "salmon")
+    fictionalabel.grid(row = 3,column = 0)
 
-save = Button(root,text = "Save",font = "Impact 15",width = "20",command = addnew) 
-save.grid(row = 4,column = 1)
+    namentry = Entry(root,font = "Impact 15",bg = "gold")
+    namentry.grid(row = 1,column = 1)
 
-root.mainloop()
+    shipentry = Entry(root,font = "Impact 15",bg = "gold")
+    shipentry.grid(row = 2,column = 1)
+
+    optionString = StringVar(root)
+    optionString.set("False")
+    dropdown = OptionMenu(root,optionString,"False","True")
+    dropdown.config(font = "Impact 15",width = "10",bg = "gold")
+    dropdown.nametowidget(dropdown.menuname).config(font = "Impact 15")
+    dropdown.grid(row = 3,column = 1)
+
+    save = Button(root,text = "Save",font = "Impact 15",width = "20",bg = "orange",command = addnew) 
+    save.grid(row = 4,column = 0,columnspan = 2)
+
+    cancel = Button(root,text = "Cancel",font = "Impact 15",width = "20",bg = "orange",command = cancelme)
+    cancel.grid(row = 5,column = 0,columnspan = 2)
+
+    root.mainloop()
     

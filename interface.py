@@ -1,7 +1,12 @@
 from tkinter import *
 import FirebaseManager
+import PirateDataBase
 
 window1 = Tk()
+
+window1.config(bg="salmon")
+
+window2 = ""
 
 frame1 = Frame(window1,bg="salmon",padx=166)
 
@@ -19,7 +24,7 @@ def dofilter():
 def searchupdate(e):
     dofilter()
 
-frame2 = Frame(window1,padx=2)
+frame2 = Frame(window1,padx=6,bg="salmon")
 
 searchlabel = Label(frame2,text = "Search", font = "Arial 20", bg = "salmon")
 searchlabel.grid(column=0,row=0)
@@ -55,7 +60,7 @@ def updatelistbox(index):
         if dlist[pirateid]["name"].lower() == piratename.lower():
             display(pirateid)
 
-frame3 = Frame(window1,bg="salmon",padx=90,pady=85)
+frame3 = Frame(window1,bg="salmon",padx=90,pady=102)
 
 leftimg = PhotoImage(file="left.gif")
 leftimg = leftimg.subsample(2)
@@ -95,18 +100,36 @@ def display(pirateId):
         FicLabel.config(text="Fictional")
     else:
         FicLabel.config(text="Real")
+
+def newpirate():
+    global window2
+    window2 = Toplevel()
+    PirateDataBase.loadwindow(window2)
     
-frame4 = Frame(window1,bg="salmon",padx=45,pady=29)
+def refreshlistbox():
+    listbox.delete(0,"end")
+    for item in dlist:
+        pirate = dlist[item]
+        listbox.insert(END,pirate["name"])
+
+def refreshme():
+    global dlist
+    dlist = fm.getall()
+    refreshlistbox()
+
+frame4 = Frame(window1,bg="salmon",padx=52,pady=29)
 
 label4 = Label(frame4,text = "View Pirates", font = "Arial 20", bg = "salmon")
 label4.pack()
+
 listbox = Listbox(frame4,font="Arial 20",width=20,bg="gold")
 listbox.bind("<<ListboxSelect>>",onselect)
+
 fm = FirebaseManager.FirebaseManager()
+
 dlist = fm.getall()
-for item in dlist:
-    pirate = dlist[item]
-    listbox.insert(END,pirate["name"])
+refreshlistbox()
+
 listbox.pack()
 
 def listdelete():
@@ -119,10 +142,16 @@ def listdelete():
     fm.deletepirate(deletekey)
     dlist.pop(deletekey)
     dofilter()
+    updatelistbox(0)
 
-deletebutton = Button(frame4,text="Delete",font="Arial 30",width=13,height=1,bg="orange",command=listdelete)
+deletebutton = Button(frame4,text="Delete",font="Arial 20",width=18,height=1,bg="orange",command=listdelete)
 deletebutton.pack()
 
+addbutton = Button(frame4,text="Add",font="Arial 20",width=18,height=1,bg="orange",command=newpirate)
+addbutton.pack()
+
+refreshbutton = Button(frame4,text="Refresh",font="Arial 20",width=18,height=1,bg="orange",command=refreshme)
+refreshbutton.pack()
 
 frame1.grid(row=0,column=0) 
 frame2.grid(row=0,column=1)
