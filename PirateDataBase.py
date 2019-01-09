@@ -8,16 +8,19 @@ class Pirate:
     name = ""
     ship = ""
     fictional = False
+    image = ""
 
     def loadfromdict(self,d):
         self.name = d["name"]
         self.ship = d["ship"]
         self.fictional = d["fictional"]
+        self.image = d["image"]
 
     def getdict(self):
         d = {"name":self.name,
              "ship":self.ship,
-             "fictional":self.fictional}
+             "fictional":self.fictional,
+             "image":self.image}
         
         return d
 
@@ -48,9 +51,12 @@ def cancelme():
     global win
     win.destroy()
 
+def browseimage():
+    x=0
+
 def loadwindow(root):
 
-    global win, namentry, shipentry, optionString
+    global win, namentry, shipentry, optionString, lbimage
     win = root
     root.config(bg="salmon")
     root.title("Pirate Database")
@@ -72,6 +78,12 @@ def loadwindow(root):
     shipentry = Entry(root,font = "Impact 15",bg = "gold")
     shipentry.grid(row = 2,column = 1)
 
+    imgbutton = Button(root,font = "Impact 15",text = "Select an Image",bg = "gold",command = browseimage)
+    imgbutton.grid(row = 4,column = 0)
+
+    lbimage = Label(root,font = "Impact 15",bg = "gold")
+    lbimage.grid(row = 4,column = 1)
+
     optionString = StringVar(root)
     optionString.set("False")
     dropdown = OptionMenu(root,optionString,"False","True")
@@ -80,10 +92,10 @@ def loadwindow(root):
     dropdown.grid(row = 3,column = 1)
 
     save = Button(root,text = "Save",font = "Impact 15",width = "20",bg = "orange",command = addnew) 
-    save.grid(row = 4,column = 0,columnspan = 2)
+    save.grid(row = 5,column = 0,columnspan = 2)
 
     cancel = Button(root,text = "Cancel",font = "Impact 15",width = "20",bg = "orange",command = cancelme)
-    cancel.grid(row = 5,column = 0,columnspan = 2)
+    cancel.grid(row = 6,column = 0,columnspan = 2)
 
     root.mainloop()
     
