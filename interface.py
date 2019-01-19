@@ -75,7 +75,7 @@ rightbtn.grid(row=1,column=2,rowspan=2)
 Piratelabel = Label(frame3,text="Pirate",font="Arial 30",bg="salmon")
 Piratelabel.grid(row=0,column=0,columnspan=3)
 
-sponge = PhotoImage(file="spongepirate.gif")
+sponge = PhotoImage(file="pirate7.gif")
 Pirateimg = Label(frame3,image=sponge)
 Pirateimg.grid(row=1,column=1)
 

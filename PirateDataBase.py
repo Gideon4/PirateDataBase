@@ -1,7 +1,10 @@
 from tkinter import *
+from tkinter import filedialog
 import json
 import random
 from firebase import firebase as fb
+import os
+import imagemanager
 
 class Pirate:
 
@@ -29,17 +32,23 @@ class FirebaseManager:
 
     def writetofile(self, idNum, obj):
         result = self.app.put("", idNum, obj)
-        
+
 def addnew():
 
-    global win, namentry, shipentry, optionString
+    global win, namentry, shipentry, optionString, lbimage
     p = Pirate()
     p.name = namentry.get()
     p.ship = shipentry.get()
     p.fictional = optionString.get()
 
+    im = imagemanager.ImageManager()
+    im.imagepath = win.filename
+    im.uploadImage()
+    p.image = im.url
+
     namentry.delete(0,"end")
     shipentry.delete(0,"end")
+    lbimage.config(text = "")
 
     d = p.getdict()
     fm = FirebaseManager()
@@ -52,7 +61,10 @@ def cancelme():
     win.destroy()
 
 def browseimage():
-    x=0
+    global win, lbimage
+    win.filename = filedialog.askopenfilename()
+    justfile = os.path.basename(win.filename)
+    lbimage.config(text = justfile)
 
 def loadwindow(root):
 
@@ -81,7 +93,7 @@ def loadwindow(root):
     imgbutton = Button(root,font = "Impact 15",text = "Select an Image",bg = "gold",command = browseimage)
     imgbutton.grid(row = 4,column = 0)
 
-    lbimage = Label(root,font = "Impact 15",bg = "gold")
+    lbimage = Label(root,text = "",font = "Impact 15",bg = "salmon")
     lbimage.grid(row = 4,column = 1)
 
     optionString = StringVar(root)
